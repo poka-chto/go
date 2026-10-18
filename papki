@@ -8,19 +8,16 @@ import (
 	"strings"
 )
 
-// Task описывает одну задачу.
 type Task struct {
 	Title string
 	Done  bool
 }
 
-// Folder описывает папку с задачами.
 type Folder struct {
 	Name  string
 	Tasks []Task
 }
 
-// AddTask добавляет задачу в папку.
 func (f *Folder) AddTask(title string) {
 	task := Task{
 		Title: title,
@@ -30,7 +27,6 @@ func (f *Folder) AddTask(title string) {
 	f.Tasks = append(f.Tasks, task)
 }
 
-// DeleteTask удаляет задачу по номеру.
 func (f *Folder) DeleteTask(index int) bool {
 	if index < 0 || index >= len(f.Tasks) {
 		return false
@@ -40,23 +36,19 @@ func (f *Folder) DeleteTask(index int) bool {
 	return true
 }
 
-// ToggleStatus меняет статус задачи.
 func (t *Task) ToggleStatus() {
 	t.Done = !t.Done
 }
 
-// Rename меняет название папки.
 func (f *Folder) Rename(name string) {
 	f.Name = name
 }
 
-// readLine читает строку из консоли.
 func readLine(reader *bufio.Reader) string {
 	text, _ := reader.ReadString('\n')
 	return strings.TrimSpace(text)
 }
 
-// readNumber считывает число.
 func readNumber(reader *bufio.Reader) (int, bool) {
 	text := readLine(reader)
 	number, err := strconv.Atoi(text)
@@ -68,7 +60,7 @@ func readNumber(reader *bufio.Reader) (int, bool) {
 	return number, true
 }
 
-// Проверяет, существует ли папка с таким названием.
+// проверка папки с названием
 func folderExists(folders []Folder, name string, except int) bool {
 	for i, folder := range folders {
 		if i != except && strings.EqualFold(folder.Name, name) {
@@ -79,7 +71,7 @@ func folderExists(folders []Folder, name string, except int) bool {
 	return false
 }
 
-// Меню выбранной папки.
+// меню выбранной папки
 func openFolder(reader *bufio.Reader, folder *Folder) {
 	for {
 		fmt.Printf("\n=== Папка: %s ===\n", folder.Name)
